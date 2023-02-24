@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "chest_boat",
+  "ingredients": [
+    {
+      "tag": "forge:chests"
+    },
+    {
+      "item": "fireproofboats:crimson_boat"
+    }
+  ],
+  "result": {
+    "item": "fireproofboats:crimson_chest_boat"
+  }
+}

@@ -1,0 +1,15 @@
+{
+    "required": true,
+    "package": "cy.jdkdigital.fireproofboats.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "client": [
+        "MixinBoat",
+        "MixinChestBoat",
+        "MixinBoatType"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "refmap": "fireproofboats.refmap.json",
+    "minVersion": "0.8"
+}
