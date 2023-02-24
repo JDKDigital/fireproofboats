@@ -24,9 +24,9 @@ public abstract class MixinChestBoat extends Boat
 
     @Inject(at = {@At(value = "RETURN")}, method = {"getDropItem"}, cancellable = true)
     public void getDropItem(CallbackInfoReturnable<Item> cir) {
-        if (this.getBoatType().equals(CRIMSON_TYPE)) {
+        if (this.getVariant().equals(CRIMSON_TYPE)) {
             cir.setReturnValue(FireproofBoats.CRIMSON_CHEST_BOAT.get());
-        } else if (this.getBoatType().equals(WARPED_TYPE)) {
+        } else if (this.getVariant().equals(WARPED_TYPE)) {
             cir.setReturnValue(FireproofBoats.WARPED_CHEST_BOAT.get());
         }
     }

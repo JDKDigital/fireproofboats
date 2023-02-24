@@ -25,7 +25,7 @@ import static cy.jdkdigital.fireproofboats.FireproofBoats.WARPED_TYPE;
 @Mixin(value = Boat.class)
 public abstract class MixinBoat extends Entity implements IForgeBoat
 {
-    @Shadow public abstract Boat.Type getBoatType();
+    @Shadow public abstract Boat.Type getVariant();
 
     public MixinBoat(EntityType<?> type, Level level) {
         super(type, level);
@@ -33,26 +33,26 @@ public abstract class MixinBoat extends Entity implements IForgeBoat
 
     @Override
     public boolean fireImmune() {
-        return isFireproofBoat(this.getBoatType()) || super.fireImmune();
+        return isFireproofBoat(this.getVariant()) || super.fireImmune();
     }
 
     @Inject(at = {@At(value = "RETURN")}, method = {"getDropItem"}, cancellable = true)
     public void getDropItem(CallbackInfoReturnable<Item> cir) {
-        if (this.getBoatType().equals(CRIMSON_TYPE)) {
+        if (this.getVariant().equals(CRIMSON_TYPE)) {
             cir.setReturnValue(FireproofBoats.CRIMSON_BOAT.get());
-        } else if (this.getBoatType().equals(WARPED_TYPE)) {
+        } else if (this.getVariant().equals(WARPED_TYPE)) {
             cir.setReturnValue(FireproofBoats.WARPED_BOAT.get());
         }
     }
 
     @Override
     public boolean canBoatInFluid(FluidState state) {
-        return (state.getFluidType().equals(Fluids.LAVA.getFluidType()) && isFireproofBoat(this.getBoatType())) || IForgeBoat.super.canBoatInFluid(state);
+        return (state.getFluidType().equals(Fluids.LAVA.getFluidType()) && isFireproofBoat(this.getVariant())) || IForgeBoat.super.canBoatInFluid(state);
     }
 
     @Override
     public boolean canBoatInFluid(FluidType type) {
-        return (type.equals(Fluids.LAVA.getFluidType()) && isFireproofBoat(this.getBoatType())) || IForgeBoat.super.canBoatInFluid(type);
+        return (type.equals(Fluids.LAVA.getFluidType()) && isFireproofBoat(this.getVariant())) || IForgeBoat.super.canBoatInFluid(type);
     }
 
     private static boolean isFireproofBoat(Boat.Type boatType) {
