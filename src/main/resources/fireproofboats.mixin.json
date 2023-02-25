@@ -4,8 +4,8 @@
     "compatibilityLevel": "JAVA_17",
     "client": [
         "MixinBoat",
-        "MixinChestBoat",
-        "MixinBoatType"
+        "MixinBoatType",
+        "MixinEntity"
     ],
     "injectors": {
         "defaultRequire": 1

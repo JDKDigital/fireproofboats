@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-//@Debug(export = true)
 @Mixin(value = Boat.Type.class)
 public class MixinBoatType
 {
