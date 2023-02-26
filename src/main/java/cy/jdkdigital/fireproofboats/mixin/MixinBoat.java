@@ -6,8 +6,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.extensions.IForgeBoat;
@@ -33,7 +31,7 @@ public abstract class MixinBoat extends Entity implements IForgeBoat
 
     @Override
     public boolean fireImmune() {
-        return isFireproofBoat(this.getVariant()) || super.fireImmune();
+        return FireproofBoats.isFireproofBoat(this.getVariant()) || super.fireImmune();
     }
 
     @Inject(at = {@At(value = "RETURN")}, method = {"getDropItem"}, cancellable = true)
@@ -47,15 +45,13 @@ public abstract class MixinBoat extends Entity implements IForgeBoat
 
     @Override
     public boolean canBoatInFluid(FluidState state) {
-        return (state.getFluidType().equals(Fluids.LAVA.getFluidType()) && isFireproofBoat(this.getVariant())) || IForgeBoat.super.canBoatInFluid(state);
+        Boat boat = (Boat) (Object) this;
+        return state.supportsBoating(boat) || (state.getFluidType().equals(Fluids.LAVA.getFluidType()) && FireproofBoats.isFireproofBoat(this.getVariant()));
     }
 
     @Override
     public boolean canBoatInFluid(FluidType type) {
-        return (type.equals(Fluids.LAVA.getFluidType()) && isFireproofBoat(this.getVariant())) || IForgeBoat.super.canBoatInFluid(type);
-    }
-
-    private static boolean isFireproofBoat(Boat.Type boatType) {
-        return ((FireBlock) Blocks.FIRE).getBurnOdds(boatType.getPlanks().defaultBlockState()) == 0;
+        Boat boat = (Boat) (Object) this;
+        return type.supportsBoating(boat) || (type.equals(Fluids.LAVA.getFluidType()) && FireproofBoats.isFireproofBoat(this.getVariant()));
     }
 }
