@@ -2,7 +2,7 @@
     "required": true,
     "package": "cy.jdkdigital.fireproofboats.mixin",
     "compatibilityLevel": "JAVA_17",
-    "client": [
+    "mixins": [
         "MixinBoat",
         "MixinChestBoat",
         "MixinBoatType"
