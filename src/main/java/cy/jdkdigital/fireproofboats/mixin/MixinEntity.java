@@ -1,8 +1,8 @@
 package cy.jdkdigital.fireproofboats.mixin;
 
 import cy.jdkdigital.fireproofboats.FireproofBoats;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.BoatEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +23,7 @@ public abstract class MixinEntity
 
     @Inject(at = {@At(value = "HEAD")}, method = {"isInLava"}, cancellable = true)
     public void isInLava(CallbackInfoReturnable<Boolean> cir) {
-        if (!this.firstTick && this.isPassenger() && this.getVehicle() instanceof Boat boat && FireproofBoats.isFireproofBoat(boat.getBoatType())) {
+        if (!this.firstTick && this.isPassenger() && this.getVehicle() instanceof BoatEntity && FireproofBoats.isFireproofBoat(((BoatEntity) this.getVehicle()).getBoatType())) {
             cir.setReturnValue(false);
         }
     }

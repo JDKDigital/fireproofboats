@@ -1,15 +1,15 @@
 package cy.jdkdigital.fireproofboats.mixin;
 
 import cy.jdkdigital.fireproofboats.FireproofBoats;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.vehicle.Boat;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.BoatEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.item.Item;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,31 +19,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import static cy.jdkdigital.fireproofboats.FireproofBoats.CRIMSON_TYPE;
 import static cy.jdkdigital.fireproofboats.FireproofBoats.WARPED_TYPE;
 
-@Mixin(value = Boat.class)
+@Mixin(value = BoatEntity.class)
 public abstract class MixinBoat extends Entity
 {
     @Shadow private double waterLevel;
 
-    @Shadow public abstract Boat.Type getBoatType();
+    @Shadow public abstract BoatEntity.Type getBoatType();
 
-    @Shadow protected abstract Boat.Status getStatus();
-
-    public MixinBoat(EntityType<?> type, Level level) {
+    public MixinBoat(EntityType<? extends BoatEntity> type, World level) {
         super(type, level);
     }
 
     @Inject(at = {@At(value = "HEAD")}, method = {"checkInWater"}, cancellable = true)
     private void checkInFluid(CallbackInfoReturnable<Boolean> callbackInfo) {
-        AABB aabb = this.getBoundingBox();
-        int i = Mth.floor(aabb.minX);
-        int j = Mth.ceil(aabb.maxX);
-        int k = Mth.floor(aabb.minY);
-        int l = Mth.ceil(aabb.minY + 0.001D);
-        int i1 = Mth.floor(aabb.minZ);
-        int j1 = Mth.ceil(aabb.maxZ);
+        AxisAlignedBB axisalignedbb = this.getBoundingBox();
+        int i = MathHelper.floor(axisalignedbb.minX);
+        int j = MathHelper.ceil(axisalignedbb.maxX);
+        int k = MathHelper.floor(axisalignedbb.minY);
+        int l = MathHelper.ceil(axisalignedbb.minY + 0.001D);
+        int i1 = MathHelper.floor(axisalignedbb.minZ);
+        int j1 = MathHelper.ceil(axisalignedbb.maxZ);
         boolean flag = false;
-        this.waterLevel = -Double.MAX_VALUE;
-        BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
+        this.waterLevel = Double.MIN_VALUE;
+        BlockPos.Mutable mutableBlockPos = new BlockPos.Mutable();
 
         for(int k1 = i; k1 < j; ++k1) {
             for(int l1 = k; l1 < l; ++l1) {
@@ -52,10 +50,11 @@ public abstract class MixinBoat extends Entity
                     FluidState fluidstate = this.level.getFluidState(mutableBlockPos);
                     float f = (float)l1 + fluidstate.getHeight(this.level, mutableBlockPos);
                     this.waterLevel = Math.max(f, this.waterLevel);
-                    flag |= aabb.minY < (double)f;
+                    flag |= axisalignedbb.minY < (double)f;
                 }
             }
         }
+
         callbackInfo.setReturnValue(flag);
     }
 
