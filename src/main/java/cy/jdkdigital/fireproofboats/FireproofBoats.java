@@ -6,8 +6,9 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -37,17 +38,21 @@ public class FireproofBoats
     public FireproofBoats() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ITEMS.register(modEventBus);
-        modEventBus.addListener(this::tabs);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
     }
 
-    public void tabs(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab().equals(CreativeModeTabs.TOOLS_AND_UTILITIES)) {
-            event.accept(CRIMSON_BOAT.get());
-            event.accept(CRIMSON_CHEST_BOAT.get());
-            event.accept(WARPED_BOAT.get());
-            event.accept(WARPED_CHEST_BOAT.get());
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = MODID)
+    public static class EventHandler
+    {
+        @SubscribeEvent
+        public static void buildContents(BuildCreativeModeTabContentsEvent event) {
+            if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES)) {
+                event.accept(CRIMSON_BOAT.get());
+                event.accept(CRIMSON_CHEST_BOAT.get());
+                event.accept(WARPED_BOAT.get());
+                event.accept(WARPED_CHEST_BOAT.get());
+            }
         }
     }
 
