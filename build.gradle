@@ -112,7 +112,7 @@ mixin {
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "Jumpy Boats",
+                "Specification-Title"     : "Fireproof Boats",
                 "Specification-Vendor"    : "JDK Digital",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,

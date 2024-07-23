@@ -34,6 +34,12 @@ public abstract class MixinBoat extends Entity implements IForgeBoat
         return FireproofBoats.isFireproofBoat(this.getVariant()) || super.fireImmune();
     }
 
+    @Override
+    public boolean shouldUpdateFluidWhileRiding(FluidState state, Entity rider) {
+        Boat boat = (Boat) (Object) this;
+        return !FireproofBoats.isFireproofBoat(this.getVariant()) && state.shouldUpdateWhileBoating(boat, rider);
+    }
+
     @Inject(at = {@At(value = "RETURN")}, method = {"getDropItem"}, cancellable = true)
     public void getDropItem(CallbackInfoReturnable<Item> cir) {
         if (this.getVariant().equals(CRIMSON_TYPE)) {

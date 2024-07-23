@@ -1,3 +1,8 @@
-1.20.0-1.0.0
+1.20.1-1.0.2
+
+- Updated to work with changes in Forge 47.1.20+
+
+
+1.20.1-1.0.0
 
 - Port to 1.20
