@@ -1,13 +1,11 @@
 package cy.jdkdigital.fireproofboats;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
-@Mod.EventBusSubscriber
 public class Config
 {
-    private static final ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
-    public static final ForgeConfigSpec CLIENT_CONFIG;
+    private static final ModConfigSpec.Builder CLIENT_BUILDER = new ModConfigSpec.Builder();
+    public static final ModConfigSpec CLIENT_CONFIG;
     public static final Client CLIENT = new Client(CLIENT_BUILDER);
 
     static {
@@ -16,9 +14,9 @@ public class Config
 
     public static class Client
     {
-        public final ForgeConfigSpec.BooleanValue changeLavaRenderType;
+        public final ModConfigSpec.BooleanValue changeLavaRenderType;
 
-        public Client(ForgeConfigSpec.Builder builder) {
+        public Client(ModConfigSpec.Builder builder) {
             builder.push("Client");
 
             changeLavaRenderType = builder

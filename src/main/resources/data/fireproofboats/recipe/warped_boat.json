@@ -3,7 +3,7 @@
   "group": "boat",
   "key": {
     "#": {
-      "item": "minecraft:crimson_planks"
+      "item": "minecraft:warped_planks"
     }
   },
   "pattern": [
@@ -11,6 +11,6 @@
     "###"
   ],
   "result": {
-    "item": "fireproofboats:crimson_boat"
+    "id": "fireproofboats:warped_boat"
   }
 }

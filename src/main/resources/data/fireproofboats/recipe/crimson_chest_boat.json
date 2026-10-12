@@ -3,13 +3,13 @@
   "group": "chest_boat",
   "ingredients": [
     {
-      "tag": "forge:chests"
+      "tag": "c:chests/wooden"
     },
     {
-      "item": "fireproofboats:warped_boat"
+      "item": "fireproofboats:crimson_boat"
     }
   ],
   "result": {
-    "item": "fireproofboats:warped_chest_boat"
+    "id": "fireproofboats:crimson_chest_boat"
   }
 }

@@ -8,8 +8,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.extensions.IForgeBoat;
-import net.minecraftforge.fluids.FluidType;
+import net.neoforged.neoforge.common.extensions.IBoatExtension;
+import net.neoforged.neoforge.fluids.FluidType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,7 +21,7 @@ import static cy.jdkdigital.fireproofboats.FireproofBoats.WARPED_TYPE;
 
 //@Debug(export = true)
 @Mixin(value = Boat.class)
-public abstract class MixinBoat extends Entity implements IForgeBoat
+public abstract class MixinBoat extends Entity implements IBoatExtension
 {
     @Shadow public abstract Boat.Type getVariant();
 
@@ -34,11 +34,11 @@ public abstract class MixinBoat extends Entity implements IForgeBoat
         return FireproofBoats.isFireproofBoat(this.getVariant()) || super.fireImmune();
     }
 
-    @Override
-    public boolean shouldUpdateFluidWhileRiding(FluidState state, Entity rider) {
-        Boat boat = (Boat) (Object) this;
-        return !FireproofBoats.isFireproofBoat(this.getVariant()) && state.shouldUpdateWhileBoating(boat, rider);
-    }
+//    @Override
+//    public boolean shouldUpdateFluidWhileRiding(FluidState state, Entity rider) {
+//        Boat boat = (Boat) (Object) this;
+//        return !FireproofBoats.isFireproofBoat(this.getVariant()) && state.shouldUpdateWhileBoating(boat, rider);
+//    }
 
     @Inject(at = {@At(value = "RETURN")}, method = {"getDropItem"}, cancellable = true)
     public void getDropItem(CallbackInfoReturnable<Item> cir) {
